@@ -2,10 +2,11 @@ import os
 from tkinter import filedialog, IntVar, messagebox
 import tkinter as tk
 from tkinter import ttk
-from year3.plantLab.Rijstproef.renamer import rice_rename
+from year3.plantLab.Rijstproef.renamer_3 import rice_rename
 from year3.plantLab.Sojaproef.renamer import soy_rename
 from tkinter.ttk import *
 from PIL import ImageTk, Image
+import time
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -37,15 +38,17 @@ def main():
                                    variable=barVar, mode='determinate')
             progress['maximum'] = size
             progress.pack()
+            start_time = time.time()
 
             # renamer
             if rice:
                 rice_rename(progress, infile, outfile)
             else:
                 soy_rename(progress, infile, outfile)
+            end_time = time.time()
 
             end = tk.Label(end_frame)
-            end.config(text="Renaming Completed.", font=("calibri", 12))
+            end.config(text="Renaming Completed. (took %i seconds)" % (end_time-start_time), font=("calibri", 12))
             end.place(relwidth=1, relheight=1)
 
     root = tk.Tk()
